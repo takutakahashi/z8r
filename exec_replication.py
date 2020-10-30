@@ -4,8 +4,8 @@ import time
 
 
 class Replication():
-    MASTER = "zrepl.takutakahashi.dev/master"
-    REPLICA = "zrepl.takutakahashi.dev/replica"
+    MASTER = "zfs.repl.takutakahashi.dev/master"
+    REPLICA = "zfs.repl.takutakahashi.dev/replica"
 
     def __init__(self, use_service_account=True):
         if use_service_account:
