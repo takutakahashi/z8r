@@ -51,7 +51,7 @@ while True:
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)
-        if proc.returncode < 0:
+        if proc.returncode != 0:
             print("{} sync failed : {}".format(
                 pool, proc.stderr.decode("utf-8")))
         else:
