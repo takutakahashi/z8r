@@ -8,7 +8,8 @@ RUN apt update && apt install -y zfsutils wget curl openssh-server nginx python3
  && chmod +x kubectl \
  && mv kubectl /bin/
 
-RUN pip3 install kubernetes
+COPY requirements.txt /
+RUN pip3 install -r requirements.txt
 
 RUN mkdir /run/sshd
 RUN mkdir /root/.ssh
@@ -16,5 +17,8 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin prohibit-passwo
 COPY entrypoint_daemon.sh /
 COPY entrypoint_replicator.sh /
 COPY exec_replication.py /
+COPY exec_snapshot.py /
 COPY replication.sh /
+COPY snapshot.sh /
+COPY lib/ /lib/
 COPY ssh_config /root/.ssh/config
