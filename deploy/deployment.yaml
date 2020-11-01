@@ -55,7 +55,7 @@ spec:
     spec:
       serviceAccount: z8r
       containers:
-      - image: takutakahashi/z8r:v0.2.0
+      - image: takutakahashi/z8r:v0.2.1
         imagePullPolicy: Always
         name: app
         env:
