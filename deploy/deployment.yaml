@@ -21,7 +21,7 @@ spec:
       nodeSelector:
         zfs.replication.takutakahashi.dev: "true"
       containers:
-      - image: takutakahashi/z8r
+      - image: takutakahashi/z8r:v0.2.0
         imagePullPolicy: Always
         name: app
         securityContext:
@@ -29,6 +29,8 @@ spec:
         command:
         - /entrypoint_daemon.sh
         env:
+        - name: TZ
+          value: Asia/Tokyo
         - name: NODE_NAME
           valueFrom:
             fieldRef:
@@ -53,7 +55,7 @@ spec:
     spec:
       serviceAccount: z8r
       containers:
-      - image: takutakahashi/z8r
+      - image: takutakahashi/z8r:v0.2.0
         imagePullPolicy: Always
         name: app
         env:
