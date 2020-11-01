@@ -18,8 +18,12 @@ if [[ "$DST" = "" ]]; then
 fi
 
 src_last_snapshot=`ssh $SRC zfs list -t snapshot $POOL |grep -v NAME |awk '{print $1}' |sort |tail -1`
+dst_last_snapshot=`ssh $DST zfs list -t snapshot $POOL |grep -v NAME |awk '{print $1}' |sort |tail -1`
 src_first_snapshot=`ssh $SRC zfs list -t snapshot $POOL |grep -v NAME |awk '{print $1}' |sort |head -1`
 dst_first_snapshot=`ssh $DST zfs list -t snapshot $POOL |grep -v NAME |awk '{print $1}' |sort |head -1`
+if [[ "$dst_last_snapshot" = "$src_last_snapshot" ]]; then
+    exit 0
+fi
 if [[ "$dst_first_snapshot" = "" ]]; then
     ssh $SRC zfs send $src_first_snapshot |ssh $DST zfs recv $POOL -F
 elif [[ `echo $dst_first_snapshot |awk -F'@' '{print $2}'` -lt `echo $src_first_snapshot |awk -F'@' '{print $2}'` ]]; then
