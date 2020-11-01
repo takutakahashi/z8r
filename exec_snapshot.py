@@ -23,4 +23,4 @@ while True:
                 pool, proc.stderr.decode("utf-8")))
         else:
             print("{} snapshot succeeded".format(pool))
-    time.sleep(6 * 60 * 60)
+    time.sleep(120)
