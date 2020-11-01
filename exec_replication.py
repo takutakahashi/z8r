@@ -2,7 +2,7 @@ from lib.k8s import Replication
 import subprocess
 import time
 
-repl = Replication(use_service_account=False)
+repl = Replication()
 print(repl.make_repl_dataset())
 while True:
     for pool, replset in repl.make_repl_dataset().items():

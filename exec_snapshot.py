@@ -3,7 +3,7 @@ import subprocess
 import time
 import os
 
-repl = Replication(use_service_account=False)
+repl = Replication()
 node_name = os.environ.get("NODE_NAME")
 if node_name is None:
     print("NODE_NAME is not defined")
