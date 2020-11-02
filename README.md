@@ -64,9 +64,39 @@ zfs.replication.takutakahashi.dev/replica=tank/dataset1
 Then, tank/dataset1 will be replicated from node1 to node2
 and tank/dataset2 will be replicated from node2 to node1.
 
+When one of snapshots on master has been deleted, snapshot on replica will be deleted.
+
+### 2. Auto Snapshot
+
+z8r daemons take snapshots for `master` datasets every 6 hours when they have.
+The snapshot name format is `YYYYMMDDHH`. ex: `2020103020`
+
+## Architecture
+
+There are 2 components for this system. `Replicator` and `Daemon`.
+
+The daemon have utils to execute zfs API and run ssh server for `zfs send/recv`.
+
+Each daemon pull public key for ssh from replicator via svc `http://replicator/id_rsa.pub`.
+
+The replicator can access zfs pool on each nodes via ssh. ex: `ssh node01 zfs list`.
+
+Replicator have `/etc/hosts` to access each node. This file is made using a data from Kubernetes API.
+
+## TroubleShooting
+
+### Permission Denied occured from Replicator
+
+The replicator can't access node. Recreate `node-daemon`.
+
+### No Route from Replicator
+
+The replicator have wrong `/etc/host`. Recreate `replicator`.
+
 ## Future works
 
 - [ ] Multiple replica
 - [ ] Replication to another named datasets (ex: tank/data to tank2/data2)
 - [ ] Parallel sync for pools that not share devices
 - [ ] Use NetworkPolicy and non-encryption transfer
+- [ ] Stable access with node and replicator
