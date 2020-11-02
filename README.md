@@ -11,7 +11,7 @@ z8r can handle replication strategies by zfs datasets.
 
 ### 1. Deploy it
 
-You can deploy it by a following commands.
+You can deploy it by following commands.
 
 ```
 git clone https://github.com/takutakahashi/z8r
