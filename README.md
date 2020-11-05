@@ -73,6 +73,8 @@ The snapshot name format is `YYYYMMDDHH`. ex: `2020103020`
 
 ## Architecture
 
+![image](https://user-images.githubusercontent.com/38676393/98238201-5e7b3900-1fa9-11eb-9349-1161cc017210.png)
+
 There are 2 components for this system. `Replicator` and `Daemon`.
 
 The daemon have utils to execute zfs API and run ssh server for `zfs send/recv`.
