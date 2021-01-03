@@ -12,3 +12,10 @@ if [[ $diff -gt 6 ]]; then
   zfs snapshot ${POOL}@${next_snapshot}
   echo "snapshot succeded ${POOL}@${next_snapshot}"
 fi
+# delete snapshot
+CNT=`zfs list -t snapshot $POOL |grep -v NAME |wc -l`
+if [[ "$CNT" = "21" ]]; then
+  DEL=`zfs list -t snapshot $POOL |grep -v NAME | head -1 |awk '{print $1}'`
+  zfs destroy $DEL
+  echo "deleted snapshot $DEL"
+fi
