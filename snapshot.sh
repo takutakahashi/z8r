@@ -14,7 +14,7 @@ if [[ $diff -gt 6 ]]; then
 fi
 # delete snapshot
 CNT=`zfs list -t snapshot $POOL |grep -v NAME |wc -l`
-if [[ "$CNT" != "21" ]]; then
+if [[ $CNT -gt 21 ]]; then
   DEL=`zfs list -t snapshot $POOL |grep -v NAME | head -1 |awk '{print $1}'`
   zfs destroy $DEL
   echo "deleted snapshot $DEL"
