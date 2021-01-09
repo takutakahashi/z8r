@@ -12,7 +12,7 @@ for replset in filter(
         repl.make_repl_dataset()):
     pool = replset["master"].split(":")[1]
     cmd = ["/snapshot.sh", pool]
-    if os.envrion.get("DEBUG") == "true":
+    if os.environ.get("DEBUG") == "true":
         cmd = ["echo", "/snapshot.sh", pool]
     print("{} snapshot started".format(pool))
     proc = subprocess.run(
