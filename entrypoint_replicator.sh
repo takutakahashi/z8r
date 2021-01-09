@@ -11,6 +11,6 @@ echo "staring replicator"
 while true; do
     cp -f /tmp/hosts /etc/hosts
     kubectl get pod -o wide -n z8r |grep node-daemon|awk '{print $6," ",$7}' >> /etc/hosts
-    test "$DEBUG" = "true" && (echo "debug mode"; sleep infinity) || exec python3 -u /exec_replication.py
+    test "$DEBUG" = "true" && (echo "debug mode"; sleep infinity) || python3 -u /exec_replication.py
     sleep 120
 done
