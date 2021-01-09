@@ -4,8 +4,10 @@ import time
 
 repl = Replication()
 print(repl.make_repl_dataset())
-for pool, replset in repl.make_repl_dataset().items():
-    cmd = ["/replication.sh", pool, replset["master"], replset["replica"]]
+for replset in repl.make_repl_dataset():
+    src_host, src_pool = replset["master"].split(":")
+    dst_host, dst_pool = replset["replica"].split(":")
+    cmd = ["/replication.sh", src_host, src_pool, dst_host, dst_pool]
     print("{} sync started: {} to {}".format(
         pool, replset["master"], replset["replica"]))
     proc = subprocess.run(

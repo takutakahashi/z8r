@@ -7,10 +7,13 @@ node_name = os.environ.get("NODE_NAME")
 if node_name is None:
     print("NODE_NAME is not defined")
     exit(1)
-for pool, replset in filter(
-        lambda k: k[1]["master"] == node_name,
-        repl.make_repl_dataset().items()):
+for replset in filter(
+        lambda k: k["master"].split(":")[0] == node_name,
+        repl.make_repl_dataset()):
+    pool = replset["master"].split(":")[1]
     cmd = ["/snapshot.sh", pool]
+    if os.envrion.get("DEBUG") == "true":
+        cmd = ["echo", "/snapshot.sh", pool]
     print("{} snapshot started".format(pool))
     proc = subprocess.run(
             cmd,

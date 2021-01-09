@@ -1,5 +1,5 @@
 from kubernetes import client, config
-
+import yaml
 
 class Replication():
     MASTER = "zfs.repl.takutakahashi.dev/master"
@@ -19,22 +19,7 @@ class Replication():
     # repl dataset: 
     # [{"master": "host1:tank/data", "replica": "host2:tank/data"}]
     def make_repl_dataset(self):
-        nodes = self.get_labels()
-
-        def filter_label(labels, label_type):
-            li = [v.split(",") for k, v in labels.items() if label_type in k]
-            return [] if len(li) == 0 else li.pop()
-        nodes = {node: {
-                      "master": filter_label(labels, self.MASTER),
-                      "replica": filter_label(labels, self.REPLICA),
-                  } for node, labels in nodes.items()}
-        replsets = {}
-        for node, d in nodes.items():
-            for master_pool in d["master"]:
-                replsets[master_pool] = {"master": node}
-        for node, d in nodes.items():
-            for replica_pool in d["replica"]:
-                if not replsets.get(replica_pool):
-                    continue
-                replsets[replica_pool]["replica"] = node
-        return replsets
+        config = []
+        with open('/etc/z8r/config.yaml') as file:
+            config = yaml.safe_load(file)
+        return config
