@@ -1,6 +1,7 @@
 from lib.k8s import Replication
 import subprocess
 import time
+import os
 
 repl = Replication()
 print(repl.make_repl_dataset())
@@ -8,6 +9,8 @@ for replset in repl.make_repl_dataset():
     src_host, src_pool = replset["master"].split(":")
     dst_host, dst_pool = replset["replica"].split(":")
     cmd = ["/replication.sh", src_host, src_pool, dst_host, dst_pool]
+    if os.environ.get("DEBUG") == "true":
+        cmd = ["echo", "/replication.sh", src_host, src_pool, dst_host, dst_pool]
     print("{} sync started: {} to {}".format(
         pool, replset["master"], replset["replica"]))
     proc = subprocess.run(
