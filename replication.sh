@@ -34,4 +34,4 @@ if [[ "$dst_first_snapshot" = "" ]]; then
 elif [[ `echo $dst_first_snapshot |awk -F'@' '{print $2}'` -lt `echo $src_first_snapshot |awk -F'@' '{print $2}'` ]]; then
     ssh $DSTHOST zfs destroy $dst_first_snapshot
 fi
-ssh $SRCHOST zfs send -I $src_first_snapshot $src_last_snapshot |ssh $DSTHOST zfs recv $DSTPOOL
+ssh $SRCHOST zfs send -I $src_first_snapshot $src_last_snapshot |ssh $DSTHOST zfs recv $DSTPOOL -F
