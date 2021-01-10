@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pipe
+  name: pipe
+  namespace: z8r
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipe
+  template:
+    metadata:
+      labels:
+        app: pipe
+    spec:
+      containers:
+      - image: nwtgck/piping-server
+        args:
+        - --http-port=80
+        imagePullPolicy: Always
+        name: app
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pipe
+  name: pipe
+  namespace: z8r
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+  selector:
+    app: pipe
