@@ -3,17 +3,13 @@ import subprocess
 import os
 
 repl = Replication()
-node_name = os.environ.get("NODE_NAME")
-if node_name is None:
-    print("NODE_NAME is not defined")
-    exit(1)
-for replset in filter(
-        lambda k: k["master"].split(":")[0] == node_name,
-        repl.make_repl_dataset()):
-    pool = replset["master"].split(":")[1]
-    cmd = ["/snapshot.sh", pool]
+
+for replset in repl.make_snapshot_dataset()["targets"]:
+    host, pool = replset.split(":")
+    cmd = ["/snapshot.sh", host, pool]
     if os.environ.get("DEBUG") == "true":
-        cmd = ["echo", "/snapshot.sh", pool]
+        cmd = ["echo", "/snapshot.sh", host, pool]
+        print(cmd)
     print("{} snapshot started".format(pool))
     proc = subprocess.run(
             cmd,

@@ -63,3 +63,32 @@ spec:
             value: "false"
         command:
         - /entrypoint_replicator.sh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: snapshot
+  name: snapshot
+  namespace: z8r
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snapshot
+  template:
+    metadata:
+      labels:
+        app: snapshot
+    spec:
+      serviceAccount: z8r
+      containers:
+      - image: takutakahashi/z8r:test
+        imagePullPolicy: Always
+        name: app
+        env:
+          - name: DEBUG
+            value: "true"
+        command:
+        - sleep
+        - infinity
