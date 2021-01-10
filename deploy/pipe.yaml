@@ -16,9 +16,7 @@ spec:
         app: pipe
     spec:
       containers:
-      - image: nwtgck/piping-server
-        args:
-        - --http-port=80
+      - image: nwtgck/piping-server-rust:v0.8.1
         imagePullPolicy: Always
         name: app
 
@@ -35,6 +33,7 @@ spec:
   ports:
   - name: http
     port: 80
+    targetPort: 8080
     protocol: TCP
   selector:
     app: pipe
