@@ -1,6 +1,7 @@
 from kubernetes import client, config
 import yaml
 
+
 class Replication():
     MASTER = "zfs.repl.takutakahashi.dev/master"
     REPLICA = "zfs.repl.takutakahashi.dev/replica"
@@ -21,5 +22,11 @@ class Replication():
     def make_repl_dataset(self):
         config = []
         with open('/etc/z8r/config.yaml') as file:
+            config = yaml.safe_load(file)
+        return config
+    
+    def make_snapshot_dataset(self):
+        config = []
+        with open('/etc/z8r/snapshot.yaml') as file:
             config = yaml.safe_load(file)
         return config
