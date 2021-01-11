@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y zfsutils nc wget curl openssh-server nginx python3.8 python3-pip \
+RUN apt update && apt install -y zfsutils netcat wget curl openssh-server nginx python3.8 python3-pip \
  && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
  && chmod +x kubectl \
  && mv kubectl /bin/
