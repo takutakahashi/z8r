@@ -30,8 +30,10 @@ if [[ "$dst_last_snapshot" = "$src_last_snapshot" ]]; then
     exit 0
 fi
 if [[ "$dst_first_snapshot" = "" ]]; then
-    ssh $SRCHOST zfs send $src_first_snapshot |ssh $DSTHOST zfs recv $DSTPOOL -F
+    ssh $SRCHOST zfs send $src_first_snapshot | curl -T - pipe/$DSTPOOL/$src_first_snapshot &
+    ssh $DSTHOST "curl pipe/$DSTPOOL/$src_first_snapshot | zfs recv $DSTPOOL -F"
 elif [[ `echo $dst_first_snapshot |awk -F'@' '{print $2}'` -lt `echo $src_first_snapshot |awk -F'@' '{print $2}'` ]]; then
     ssh $DSTHOST zfs destroy $dst_first_snapshot
 fi
-ssh $SRCHOST zfs send -I $src_first_snapshot $src_last_snapshot |ssh $DSTHOST zfs recv $DSTPOOL -F
+ssh $SRCHOST zfs send -I $src_first_snapshot $src_last_snapshot | curl -T - pipe/$DSTPOOL/$src_first_snapshot/$src_last_snapshot &
+ssh $DSTHOST "curl pipe/$DSTPOOL/$src_first_snapshot/$src_last_snapshot | zfs recv $DSTPOOL -F"
