@@ -21,8 +21,8 @@ if [[ "$DSTHOST" = "" ]]; then
   echo "no dst"
   exit 1
 fi
-SRCMNT=`ssh $SRCHOST zfs list -o name,mountpoint |grep $SRCPOOL |awk '{print $1}'`
-DSTMNT=`ssh $DSTHOST zfs list -o name,mountpoint |grep $DSTPOOL |awk '{print $1}'`
+SRCMNT=`ssh $SRCHOST zfs list -o name,mountpoint |grep  "^$SRCPOOL " |awk '{print $2}'`
+DSTMNT=`ssh $DSTHOST zfs list -o name,mountpoint |grep  "^$DSTPOOL " |awk '{print $2}'`
 echo "check mountpoint"
 test "$SRCMNT" = "-" && exit 1
 test "$DSTMNT" = "-" && exit 1
