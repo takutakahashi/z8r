@@ -30,4 +30,4 @@ echo "mount pool"
 ssh $SRCHOST zfs mount $SRCPOOL
 ssh $DSTHOST zfs mount $DSTPOOL
 echo "start sync"
-ssh $SRCHOST rsync -rvn --checksum /$SRCMNT/ $DSTHOST:$DSTMNT
+ssh -R 127.0.0.1:50000:$DSTHOST:22 $SRCHOST "rsync -e 'ssh -p 50000' -uar $SRCMNT/ 127.0.0.1:$DSTMNT"
