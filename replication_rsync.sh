@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 SRCHOST=$1
 SRCPOOL=$2
@@ -31,3 +31,5 @@ ssh $SRCHOST zfs mount $SRCPOOL
 ssh $DSTHOST zfs mount $DSTPOOL
 echo "start sync"
 ssh -R 127.0.0.1:50000:$DSTHOST:22 $SRCHOST "rsync -e 'ssh -p 50000' -uar $SRCMNT/ 127.0.0.1:$DSTMNT"
+ssh $SRCHOST zfs umount $SRCMNT
+ssh $DSTHOST zfs umount $DSTMNT
