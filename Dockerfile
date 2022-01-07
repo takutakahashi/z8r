@@ -17,7 +17,8 @@ COPY entrypoint_replicator.sh /
 COPY entrypoint_snapshot.sh /
 COPY exec_replication.py /
 COPY exec_snapshot.py /
-COPY replication.sh /
+COPY replication_zfs.sh /
+COPY replication_rsync.sh /
 COPY snapshot.sh /
 COPY lib/ /lib/
 COPY ssh_config /root/.ssh/config
